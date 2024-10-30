@@ -1,26 +1,54 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-  >
-    <el-menu-item index="1">Processing Center</el-menu-item>
-    <el-sub-menu index="2">
-      <template #title>Workspace</template>
-      <el-menu-item index="2-1">item one</el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
-      <el-sub-menu index="2-4">
-        <template #title>item four</template>
-        <el-menu-item index="2-4-1">item one</el-menu-item>
-        <el-menu-item index="2-4-2">item two</el-menu-item>
-        <el-menu-item index="2-4-3">item three</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="3" disabled>Info</el-menu-item>
-    <el-menu-item index="4">Orders</el-menu-item>
-  </el-menu>
+  <div class="wrapper">
+    <div class="nav-bar">
+      <IconHome class="logo" />
+      <el-menu
+        :default-active="activeIndex"
+        class="nav-menu"
+        mode="horizontal"
+        @select="onLink"
+      >
+        <el-menu-item v-for="menu in routes" :index="menu.name">
+          {{ menu.meta?.title ?? '' }}
+        </el-menu-item>
+      </el-menu>
+      <el-button type="primary">登录/注册</el-button>
+    </div>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import IconHome from '@/components/icons/IconHome.vue'
+import { routes } from '@/router'
+
+const router = useRouter()
+
+const onLink = (key, keyPath) => {
+  console.log('menu: ', key, keyPath)
+  router.push({ name: key })
+}
+</script>
+
+<style lang="scss" scoped>
+.wrapper {
+  padding: 0 24px;
+}
+.nav-bar {
+  width: 100%;
+  display: flex;
+  // justify-content: space-between;
+
+  align-items: center;
+  gap: 48px;
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+  .nav-menu {
+    flex: 1 0;
+    max-width: 100%;
+  }
+  .login-action {
+  }
+}
+</style>
