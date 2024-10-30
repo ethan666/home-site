@@ -8,7 +8,7 @@ import NavBar from '@/components/NavBar.vue'
     <NavBar></NavBar>
   </header>
 
-  <el-scrollbar max-height="400px">
+  <el-scrollbar>
     <RouterView />
   </el-scrollbar>
 </template>

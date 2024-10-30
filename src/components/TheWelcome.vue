@@ -1,5 +1,10 @@
+<template>
+  <div class="welcome">欢迎来到Hello world！</div>
+</template>
+
 <script setup></script>
 
-<template>
-  <div>欢迎来到Hello world！</div>
-</template>
+<style lang="scss" scoped>
+.welcome {
+}
+</style>
