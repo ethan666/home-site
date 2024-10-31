@@ -3,12 +3,12 @@
     <div class="nav-bar">
       <IconHome class="logo" />
       <el-menu
-        :default-active="activeIndex"
+        :default-active="activeMenu"
         class="nav-menu"
         mode="horizontal"
         @select="onLink"
       >
-        <el-menu-item v-for="menu in routes" :index="menu.name">
+        <el-menu-item v-for="menu in routes" :index="menu.path">
           {{ menu.meta?.title ?? '' }}
         </el-menu-item>
       </el-menu>
@@ -22,10 +22,18 @@ import IconHome from '@/components/icons/IconHome.vue'
 import { routes } from '@/router'
 
 const router = useRouter()
+const route = useRoute()
+
+const activeMenu = computed(() => {
+  const { meta, path } = route
+  if (meta.activeMenu) {
+    return meta.activeMenu
+  }
+  return path
+})
 
 const onLink = (key, keyPath) => {
-  console.log('menu: ', key, keyPath)
-  router.push({ name: key })
+  router.push({ path: key })
 }
 </script>
 
