@@ -38,4 +38,22 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    // 如果使用docker-compose开发模式，设置为false
+    // open: true,
+    port: 8000,
+    host: '0.0.0.0',
+    // proxy: process.env.VITE_PROXY
+    //   ? proxy(JSON.parse(process.env.VITE_PROXY))
+    //   : {},
+    proxy: {
+      // 把key的路径代理到target位置
+      '/basic-api': {
+        // 需要代理的路径   例如 '/api'
+        target: 'http://localhost:3000', // 代理到 目标路径
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/basic-api/, ''),
+      },
+    },
+  },
 })

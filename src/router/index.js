@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/album',
     name: 'album',
-    component: () => import('@/views/AboutView.vue'),
+    component: () => import('@/views/UserList.vue'),
     meta: { title: '相册', icon: '', noCache: false },
   },
 ]
