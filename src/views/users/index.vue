@@ -15,14 +15,21 @@
         min-width="160"
       >
         <template #default="scope">
-          <el-button type="primary" link icon="edit" @click="onDel(scope.row)"
+          <el-button type="primary" link @click="onEdit(scope.row)"
+            >编辑</el-button
+          >
+          <el-button type="danger" link @click="onDel(scope.row)"
             >删除</el-button
           >
         </template></el-table-column
       >
     </el-table>
   </div>
-  <UserForm v-model:visible="showDialog" @success="onSuccess" />
+  <UserForm
+    v-model:visible="showDialog"
+    v-model:form="formData"
+    @success="onSuccess"
+  />
 </template>
 
 <script setup>
@@ -42,8 +49,16 @@ const onDel = async ({ _id }) => {
 }
 
 const showDialog = ref(false)
+const formData = ref({})
 
 const onAdd = () => {
+  formData.value = {}
+
+  showDialog.value = true
+}
+
+const onEdit = row => {
+  formData.value = { ...row }
   showDialog.value = true
 }
 

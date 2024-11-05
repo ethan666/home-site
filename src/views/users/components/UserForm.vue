@@ -1,5 +1,9 @@
 <template>
-  <el-dialog v-model="visible" title="用户" width="40%">
+  <el-dialog
+    v-model="visible"
+    :title="`${form._id ? '编辑' : '新增'}用户`"
+    width="40%"
+  >
     <el-form :model="form" label-width="80px">
       <el-form-item label="姓名">
         <el-input v-model="form.name"></el-input>
@@ -16,15 +20,20 @@
 </template>
 
 <script setup>
-import { add } from '@/api/user'
+import { add, edit } from '@/api/user'
 
 const visible = defineModel('visible')
+const form = defineModel('form')
+
 const emit = defineEmits(['success'])
 
-const form = ref({})
-
 const submitForm = async () => {
-  await add(form.value)
+  if (form.value._id) {
+    await edit(form.value)
+  } else {
+    await add(form.value)
+  }
+
   form.value = {}
   emit('success')
 }
