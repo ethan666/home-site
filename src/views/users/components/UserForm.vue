@@ -11,6 +11,18 @@
       <el-form-item label="年龄">
         <el-input v-model="form.age"></el-input>
       </el-form-item>
+      <el-form-item label="学校">
+        <el-input v-model="form.school"></el-input>
+      </el-form-item>
+      <el-form-item label="班级">
+        <el-input v-model="form.class"></el-input>
+      </el-form-item>
+      <el-form-item label="学号">
+        <el-input v-model="form.num"></el-input>
+      </el-form-item>
+      <el-form-item label="职务">
+        <el-input v-model="form.job"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button @click="visible = false">取消</el-button>
         <el-button type="primary" @click="submitForm">提交</el-button>

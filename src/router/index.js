@@ -17,12 +17,12 @@ const routes = [
     component: () => import('@/views/AboutView.vue'),
     meta: { title: '工具', icon: '', noCache: false },
   },
-  {
-    path: '/album',
-    name: 'album',
-    component: () => import('@/views/users/index.vue'),
-    meta: { title: '相册', icon: '', noCache: false },
-  },
+  // {
+  //   path: '/album',
+  //   name: 'album',
+  //   component: () => import('@/views/users/index.vue'),
+  //   meta: { title: '相册', icon: '', noCache: false },
+  // },
 ]
 
 const router = createRouter({

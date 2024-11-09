@@ -3,16 +3,24 @@
     <el-button type="primary" @click="getTableData">查询</el-button>
     <el-button type="primary" @click="onAdd">新增</el-button>
 
-    <el-table :data="tableData" v-loading="loading" style="width: 100%">
-      <el-table-column prop="name" label="姓名" min-width="120">
+    <el-table class="table" border :data="tableData" v-loading="loading" style="width: 100%">
+      <el-table-column prop="name" label="姓名" min-width="120" align="center">
       </el-table-column>
-      <el-table-column prop="age" label="年龄" min-width="120">
+      <el-table-column prop="age" label="年龄" min-width="120" align="center">
+      </el-table-column>
+      <el-table-column prop="school" label="学校" min-width="120" align="center">
+      </el-table-column>
+      <el-table-column prop="class" label="班级" min-width="120" align="center">
+      </el-table-column>
+      <el-table-column prop="num" label="学号" min-width="120" align="center">
+      </el-table-column>
+      <el-table-column prop="job" label="职务" min-width="120" align="center">
       </el-table-column>
       <el-table-column
         align="center"
         fixed="right"
         label="操作"
-        min-width="160"
+        width="160"
       >
         <template #default="scope">
           <el-button type="primary" link @click="onEdit(scope.row)"
@@ -83,4 +91,8 @@ const getTableData = async () => {
 getTableData()
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.table {
+  margin-top: 16px;
+}
+</style>
