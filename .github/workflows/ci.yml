@@ -1,50 +1,75 @@
-# 将静态内容部署到 GitHub Pages 的简易工作流程
-name: Deploy static content to Pages
+# This is a basic workflow to help you get started with Actions
 
+name: CI
+
+# Controls when the workflow will run
 on:
-  # 仅在推送到默认分支时运行。
+  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: ['main']
+    branches: ['master']
 
-  # 这个选项可以使你手动在 Action tab 页面触发工作流
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
+# 4 设置权限（文件是可以被读写修改的）
 permissions:
-  contents: read
-  pages: write
+  contents: write
   id-token: write
+  pages: write
 
-# 允许一个并发的部署
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # 单次部署的工作描述
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  setup:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository (检查仓库)
         uses: actions/checkout@v4
-      - name: Set up Node + Yarn
-        uses: mskelton/setup-yarn@v3
+
+      - name: Setup Node.js (设置 node 版本)
+        uses: actions/setup-node@v4
         with:
-         node-version: '20.x'
-      - name: Install dependencies
-        run: yarn
-      - name: Build
-        run: yarn build
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+          node-version: 18
+
+      - name: Install pnpm (安装 pnpm)
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies (安装依赖)
+        run: pnpm install
+
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    needs: setup
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # 1 代码检查，无该命令所以不执行
+      # - name: lint (代码检查)
+      #   run: pnpm run lint
+
+      # 2 跑测试，无该命令所以不执行
+      # - name: Test (测试)
+      #   run: pnpm run test
+
+      # 3 构建项目
+      - name: Build (构建)
+        run: pnpm run build
+
+      # 4 上传构建产物（actions/upload-artifact@v3 会上传工作流程中的文件，允许您在作业之间共享数据并在工作流程完成后存储数据）
+      - name: Upload build artifacts (上传构建产物)
+        uses: actions/upload-pages-artifact@v2
         with:
-          # Upload dist folder
           path: './dist'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages(部署到 GitHub Pages)
+        uses: actions/deploy-pages@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
